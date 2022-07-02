@@ -1,16 +1,16 @@
-const storage = localStorage;
+/*const storage = localStorage;
 
 function saveCart(products) {
-    localStorage.setItem("productCart", JSON.stringify(products));
+    localStorage.setItem("productOption", JSON.stringify(products));
 }
 
 function getCart() {
-    let productCart = localStorage.getItem("productCart");
+    let productCart = localStorage.getItem("productOption");
 
     if (cart == null) {
         return [];
     } else {
-        return JSON.parse(productCart);
+        return JSON.parse(productOption);
     }
 }
 
@@ -19,4 +19,4 @@ function addToCart(product) {
     let productCart = getCart();
     productCart.push(product);
     saveCart(productCart);
-}
+}*/

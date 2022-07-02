@@ -1,6 +1,6 @@
 //recup url api par id
-let urlParam = (new URL(location)).searchParams;
-let productId = urlParam.get("id");
+const urlParam = (new URL(location)).searchParams;
+const productId = urlParam.get("id");
 
 //test console pour voir si on recoit bien l id
 console.log(productId);
@@ -14,7 +14,7 @@ const colors = document.getElementById("colors");
 
 
 //recup produit par id
-const kanapId = fetch("http://localhost:3000/api/products/" + productId);
+const kanapId = fetch(`http://localhost:3000/api/products/${productId}`);
 
 //promise asynchrone qui répond par un fichier json si la reponse est positive
 kanapId.then(async(res, err) => {
@@ -47,27 +47,35 @@ kanapId.then(async(res, err) => {
     }
 });
 
-//Récup valeur de quantity 
 const btnAdd = document.querySelector("#addToCart");
 
-btnAdd.addEventListener("Click", () => {
-
-
-    const inputValue = document.getElementById("quantity").value;
+btnAdd.addEventListener('click', () => {
 
     if (quantity.value < 100) {
 
-        const productOption = {
-                id: productId,
-                color: colors.value,
-                quantity: quantity.value,
-                image: imgKanap,
-                description: description
-            }
-            //addToCart(productOption);
-        console.log(productOption);
+        let productOptions = {
+            id: productId,
+            color: colors.value,
+            quantity: quantity.value,
+            image: imgKanap,
+            description: description
+        }
+
+        console.log(productOptions);
+    } else {
+        console.log("ca ne marche pas");
+    }
+    //------------local storage-----------------
+    let localStorageContent = JSON.parse(localStorage.getItem("product")); //convertitles données au format json
+
+    if (localStorageContent) {
+
 
     } else {
-        console.log("ca ne marche pas")
-    }
+        localStorageContent = [];
+        localStorageContent.push(productOptions);
+        localStorage.setItem("product", JSON.stringify(localStorageContent));
+        console.log(localStorageContent);
+    };
+
 });
