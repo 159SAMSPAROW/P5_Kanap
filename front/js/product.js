@@ -50,7 +50,7 @@ kanapId.then(async(res, err) => {
 //Récup valeur de quantity 
 const btnAdd = document.querySelector("#addToCart");
 
-btnAdd.addEventListener("Click", (onClick) => {
+btnAdd.addEventListener("Click", () => {
 
 
     const inputValue = document.getElementById("quantity").value;
