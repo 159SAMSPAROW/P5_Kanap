@@ -47,13 +47,13 @@ kanapId.then(async(res, err) => {
     }
 });
 
-const btnAdd = document.querySelector("#addToCart");
+const btnAdd = document.querySelector("#addToCart"); //on met le button id dans la constante btnAdd
 
-btnAdd.addEventListener('click', () => {
+btnAdd.addEventListener('click', () => { //ecoute événement click sur btnAdd
 
-    if (quantity.value < 100) {
+    if (quantity.value > 0 && quantity.value < 100 && colors.value != "") { //condition si la valeur est compris entre 0 ET 100 
 
-        let productOptions = {
+        var productOptions = { //recupere le contenu des variables des details du produit
             id: productId,
             color: colors.value,
             quantity: quantity.value,
@@ -61,21 +61,30 @@ btnAdd.addEventListener('click', () => {
             description: description
         }
 
-        console.log(productOptions);
+        console.log(productOptions); //check console
     } else {
-        console.log("ca ne marche pas");
+        alert("Veuillez remplir tout les champs !!!");
     }
     //------------local storage-----------------
-    let localStorageContent = JSON.parse(localStorage.getItem("product")); //convertitles données au format json
+    let localStorageContent = JSON.parse(localStorage.getItem("product")); //convertit au format json
+
+
+    const addLocalStorageContent = () => { //fonction qui injecte et convertit le contenu de la variable productOption en string dans le local storage
+
+        localStorageContent.push(productOptions);
+        localStorage.setItem("product", JSON.stringify(localStorageContent));
+    }
 
     if (localStorageContent) {
 
+        addLocalStorageContent()
+        console.log(localStorageContent);
 
     } else {
+
         localStorageContent = [];
-        localStorageContent.push(productOptions);
-        localStorage.setItem("product", JSON.stringify(localStorageContent));
-        console.log(localStorageContent);
+        addLocalStorageContent()
+            //console.log(localStorageContent);
     };
 
 });
