@@ -1,9 +1,9 @@
 //recup url api par id
 const urlParam = (new URL(location)).searchParams;
 const productId = urlParam.get("id");
-
-//test console pour voir si on recoit bien l id
 console.log(productId);
+//test console pour voir si on recoit bien l id
+
 
 //decla variable pour pouvoir faire l' injection dans le html
 const imgKanap = document.querySelector(".item__img");
@@ -56,15 +56,15 @@ btnAdd.addEventListener('click', () => { //ecoute événement click sur btnAdd
         var productOptions = { //recupere le contenu des variables des details du produit
             id: productId,
             color: colors.value,
-            quantity: quantity.value,
-            image: imgKanap,
-            description: description
+            quantity: quantity.value
         }
 
-        console.log(productOptions); //check console
-    } else {
+        //check console
+    } 
+    else {
         alert("Veuillez remplir tout les champs !!!");
-    }
+    } 
+    
     //------------local storage-----------------
     let localStorageContent = JSON.parse(localStorage.getItem("product")); //convertit au format json
 
@@ -72,19 +72,22 @@ btnAdd.addEventListener('click', () => { //ecoute événement click sur btnAdd
     const addLocalStorageContent = () => { //fonction qui injecte et convertit le contenu de la variable productOption en string dans le local storage
 
         localStorageContent.push(productOptions);
+        
         localStorage.setItem("product", JSON.stringify(localStorageContent));
     }
 
     if (localStorageContent) {
 
-        addLocalStorageContent()
+        addLocalStorageContent();
         console.log(localStorageContent);
+
 
     } else {
 
         localStorageContent = [];
         addLocalStorageContent()
-            //console.log(localStorageContent);
+        console.log(localStorageContent);
+
     };
 
-});
+})

@@ -1,5 +1,6 @@
 //apel api
 const kanap = fetch("http://localhost:3000/api/products");
+
 //si l' api repond elle retourne un fichier json
 kanap.then(async(res, err) => {
 
@@ -8,7 +9,7 @@ kanap.then(async(res, err) => {
 
             //alors ont veut que pour chaque produit soit injecter l'id, l' image et son txt alt, le nom et la description du produit dans l' id items du html
             .then((products) => {
-                console.log(products)
+
                 for (let product of products) {
 
                     items.innerHTML +=
@@ -29,6 +30,7 @@ kanap.then(async(res, err) => {
                 items.innerHTML = "erreur de chargement de la page";
             })
         }
+
     })
     //si l' api ne repond pas on renvoie une alert js
     .catch((err) => {
