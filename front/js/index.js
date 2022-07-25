@@ -27,7 +27,7 @@ kanap.then(async(res, err) => {
 
             // si il y a une erreur dans les produits injecte une erreur dans le html
             .catch((err) => {
-                items.innerHTML = "erreur de chargement de la page";
+                items.innerHTML =" <h2>erreur de chargement de la page</h2>";
             })
         }
 
