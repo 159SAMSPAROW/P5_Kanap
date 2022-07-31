@@ -17,5 +17,5 @@ console.log(urlSearchParams);
 
 const leId = urlSearchParams.get("id");
 console.log(leId);
-document.getElementById("orderId").innerHTML += `${theOrderId}`;
+document.getElementById("orderId").innerHTML += `${leId}`;
 //localStorage.clear();
