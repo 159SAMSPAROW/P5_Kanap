@@ -5,12 +5,15 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "buil": "webpack"
+        "build": "webpack"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "express": "^4.16.4",
         "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@types/uuid": "^8.3.4"
     }
 }

@@ -56,10 +56,10 @@ btnAdd.addEventListener('click', () => { //ecoute événement click sur btnAdd
         var productOptions = { //recupere le contenu des variables des details du produit
             id: productId,
             color: colors.value,
-            quantity: quantity.value
+            quantity: quantity.value,
+            
         }
-
-        //check console
+            window.location.href ="cart.html"
     } 
     else {
         alert("Veuillez remplir tout les champs !!!");

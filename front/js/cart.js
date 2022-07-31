@@ -2,7 +2,7 @@
 ////// en paramètre a traiter la clé product contenu dans le localStorage avec la fonction getItem
 
 let productFromLS = JSON.parse(localStorage.getItem('product'));
-console.log(productFromLS);
+//console.log(productFromLS);
 
 ////// Condition pour vérifier if le localStorage n' est pas vide ou égal a rien 
 
@@ -59,7 +59,7 @@ console.log(productFromLS);
                           </div>
                       </div>
                   </article>`
-  console.log(kanap);
+  //console.log(kanap);
                   // Sélection des boutons supprimer
 
 ////// On sélectionne .deleteItem (input) avec querySelectorAll(querySelector ne fonctionne pas) et on boucle
@@ -68,12 +68,12 @@ console.log(productFromLS);
                   
 ///// Pour chaque click sur button .deleteItem (element) 
 
-                  button.addEventListener("click", () => {
+                  button.addEventListener("click", (element) => {
 
 ////// On récupère data-id déclarer dans .cart_item pour injecter sa valeur dans removeID
 ////// On récupère data-color déclarer dans .cart_item pour injecter sa valeur dans removeColor
-                      let removeId = this.dataset.id;
-                      let removeColor = this.dataset.color;
+                    let removeId = element.currentTarget.closest(".cart__item").dataset.id;
+                    let removeColor = element.currentTarget.closest(".cart__item").dataset.color;
                       //console.log(removeId);
                       //console.log(removeColor);
                       
@@ -91,7 +91,7 @@ console.log(productFromLS);
               
 // Modification de la quantité
 
-////// On sélectionne l' input .itemQuantity (input dans lequel est entrer la valeur)
+////// On sélectionne l' input .itemQuantity (input dans lequel est entrée la valeur)
 ////// Puis on boucle pour chaque valeur inputQuantity 
 ////// On écoute au changement (change se déclenche lorsqu'un nouveau choix est fait dans un élément sélectionné) 
 
@@ -177,7 +177,7 @@ if (productFromLS !== null){
     ///// parseInt permet de récuperer la valeur (number) de quantity
 
         let quantitySelected = parseInt(kanap.quantity)
-        console.log(quantitySelected)
+        //console.log(quantitySelected)
 
     ////// On affecte la valeur de quantitySelected dans la variable totalProduct    
         totalProduct += quantitySelected;
@@ -214,3 +214,190 @@ if (productFromLS !== null){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////FORMULAIRE////////////////////////////////////////////////////////////
+
+
+////// décla du tableau pour pouvoir y injecter les id, color et quantity des produits du localstorage
+let products = [];
+
+if (productFromLS !== null){
+
+    for(let product of productFromLS){
+        let productId = product.id;
+        products.push(productId);
+       console.log(products)
+    }
+};
+
+// fonction contenant la regEx pour la validation du prénom, le nom, et la ville
+////// 
+/*const regExFirstNameLastNameCity = (value) => {
+    return /^([a-zA-Zàâäéèêëïîôöùûüç' ]+){3,20}$/.test(value);
+    }*/
+
+
+
+const regExFirstNameLastNameCity = (value) => {
+    return (/[a-z]/g).test(value);
+}
+//console.log(regExFirstNameLastNameCity);
+       
+    // Fonction contenant la regEx pour la validation de l'adresse
+const regExAdress = (value) => {
+    return (/^(?=.*\d)[a-zA-Z\s\d\/]+$/).test(value);
+    }       
+   
+    
+    //Fonction contenant la regex pour la validation de l'adresse mail
+const regExMail = (value) => {
+    return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);
+    }
+
+
+//*********************** Fonctions qui controle la validité du formulaire*********************************/ 
+
+//Contrôle de la validité du prenom
+checkFirstName = (contact) => { 
+    
+    const theFirstName = contact.firstName;
+    
+    if (regExFirstNameLastNameCity(theFirstName)) {
+        
+        document.querySelector('#firstNameErrorMsg').textContent = "";
+        return true;
+    
+    } else {
+        
+        document.querySelector('#firstNameErrorMsg').textContent = "Le prénom n'est pas valide";           
+        return false;
+    };
+};
+
+//Contrôle de la validité du nom
+checkLastName = (contact) => { 
+    const theLastName = contact.lastName;
+    if (regExFirstNameLastNameCity(theLastName)) {
+        document.querySelector('#lastNameErrorMsg').textContent = "";            
+        return true;
+    } else {
+        document.querySelector('#lastNameErrorMsg').textContent = "Le nom n'est pas valide";  
+        return false;
+    };
+};
+
+//Contrôle de la validité de l'adresse
+checkAdress = (contact) => { 
+    const theAdress = contact.address;
+    if (regExAdress(theAdress)) {
+         document.querySelector('#addressErrorMsg').textContent = ""; 
+        return true;
+    } else {
+        document.querySelector('#addressErrorMsg').textContent = "L'adresse n'est pas valide"; 
+        return false;
+    };
+};
+
+//Contrôle de la validité de la ville
+checkCity = (contact) => { 
+    const theCity = contact.city;
+    if (regExFirstNameLastNameCity(theCity)) {
+         document.querySelector('#cityErrorMsg').textContent = ""; 
+        return true;
+    } else {
+        document.querySelector('#cityErrorMsg').textContent = "La ville n'est pas valide"; 
+        return false;
+    };
+};
+
+//Contrôle de la validité de l'email
+checkEmail = (contact) => { 
+    const theEmail = contact.email;
+    if (regExMail(theEmail)) {
+        document.querySelector('#emailErrorMsg').textContent = ""; 
+        return true;
+    } else {
+        document.querySelector('#emailErrorMsg').textContent = "L'adresse mail n'est pas valide"; 
+        return false;
+    };
+};
+
+/* ***********Mettre les valeurs du localStorage dans les champs du formulaire(permet de les conserver même au changement de page)*******************************/
+
+const dataLocalStorage = localStorage.getItem('contact');
+
+const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
+
+// Mettre les valeurs du localStorage dans les champs du formulaire(permet de les conserver même au changement de page)
+if(dataLocalStorageObjet == null) {
+    console.log('le formulaire est vide');
+} else {
+    document.querySelector("#firstName").value = dataLocalStorageObjet.firstName;
+    document.querySelector("#lastName").value = dataLocalStorageObjet.lastName;
+    document.querySelector("#address").value = dataLocalStorageObjet.address;
+    document.querySelector("#city").value = dataLocalStorageObjet.city;
+    document.querySelector("#email").value = dataLocalStorageObjet.email;
+}
+/******************************** fin ******************************************************************************************** */
+
+/***************************************Evenement au clic sur le bouton commander**************************************************/
+const buttonOrder = document.querySelector('#order');
+//console.log(buttonOrder)
+buttonOrder.addEventListener('click',(element) => {
+    
+    element.preventDefault();
+
+    //Récupération des valeurs (que je met dans un objet) du formulaire qui vont aller dans le localStorage
+    const contact = {
+        
+        firstName: document.querySelector('#firstName').value,
+        lastName: document.querySelector('#lastName').value,
+        address: document.querySelector('#address').value,
+        city: document.querySelector('#city').value,
+        email: document.querySelector('#email').value
+
+    }
+    console.log(contact);
+    
+    checkFirstName(contact);
+    checkLastName(contact);
+    checkAdress(contact);
+    checkCity(contact);
+    checkEmail(contact);
+
+    // ------------------- Si tous les input sont conformes, les valeurs sont stockés dans le localStorage -------------------------------//
+
+    if (checkFirstName(contact) && checkLastName(contact) && checkAdress(contact) && checkCity(contact) && checkEmail(contact)) {  
+        // Mettre l'objet 'contact' dans le localStorage
+        localStorage.setItem('contact', JSON.stringify(contact))// stringify transforme l'objet en chaine de caractere
+        
+        // Mettre les 'values' du formulaire et mettre les produits sélectionnés dans un objet à envoyer vers le serveur
+        const dataToSend = {
+            products,
+            contact
+        }
+        
+        // Envoi de l'objet 'dataToSend' vers le serveur
+    fetch("http://localhost:3000/api/products/order", {
+           
+        method: 'post',
+            
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                
+            },
+            body: JSON.stringify(dataToSend),
+        })
+            .then(response => response.json())
+                
+
+                .then(function(data){
+                    
+                    console.log(data.orderId)
+                    window.location.href = "./confirmation.html?id=" + data.orderId;
+                    return data.orderId
+        })
+       
+    } else {
+        alert("Le formulaire contient une erreur !");
+    };
+});  
