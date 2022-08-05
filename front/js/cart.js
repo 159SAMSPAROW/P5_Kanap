@@ -138,7 +138,30 @@ let productFromLS = JSON.parse(localStorage.getItem('product'));
 ////// Le parcour du tableau vérifie (if) si il y a un bien un id ET une color présente dans productFromLS
 ////// Pour l' effacer (return false) le cas écheant  
 ////// ET aprés cette vérification on renvoie les nouvelles données au localStorage pour mise a jour
-  deleteItem = (id, color) => {
+function deleteItem() {
+
+    let btnDelete = document.querySelectorAll('.deleteItem');
+  
+  
+    for (let t = 0; t < btnDelete.length; t++) {
+      btnDelete[t].addEventListener('click', (e) => {
+  
+        let idSupprimer = productFromLS[t].kanap_id;
+  
+        productFromLS = productFromLS.filter(el => el.kanap_id !== idSupprimer);
+  
+        saveproduct();
+  
+        window.location.href = 'cart.html';
+  
+      });
+    };
+  
+  }
+
+
+
+/*deleteItem = (id, color) => {
 
     productFromLS = productFromLS.filter(kanap => {
         
@@ -148,7 +171,7 @@ let productFromLS = JSON.parse(localStorage.getItem('product'));
     });
 
     localStorage.setItem("product", JSON.stringify(productFromLS));
-};
+};*/
 
 // Fonction pour modifier la quantité
 //////fonction qui prend en paramètre kanap et newQuantity 

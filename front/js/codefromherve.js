@@ -1,5 +1,7 @@
 let productsFromLS = JSON.parse(localStorage.getItem("product"));
 
+console.log(productsFromLS);
+
 let produitCommande = []
 let kanap_id;
 let kanapPrix;
@@ -9,40 +11,44 @@ let tableauPrix = [];
 
 let contenuApi=[];
 
+/*function main() {
 
-main();
-function main() {
-
- // appelApi();
+  appelApi();
  
   saveproduct();
   
   quantiteTotalproduct();
   prix()
   
-  
 };
+
+main();*/
 
 
 /////////////////////APPEL API //TEST //COMPARAISON du localstorage et /prix api/////////////////
 
 function appelApi() {
+
   const kanap = fetch("http://localhost:3000/api/products");
+  
   kanap.then((response) => {
+    
     let kanapprom = response.json();
+    
     kanapprom.then((kanaptabs) => {
       // tableau à boucler par index=k
       for (let k = 0; k < kanaptabs.length; k++) {
 
-        //contenuApi.push([kanaptabs[k]['_id'], kanaptabs[k]['price']]);
+       contenuApi.push([kanaptabs[k]['_id'], kanaptabs[k]['price']]);
+       
        produitPrix = kanaptabs[k]['price'];//creation de variable pour le prix
        produitId = kanaptabs[k]['_id'];
+       
        tableauPrix.push(produitPrix)
-       contenuApi.push([kanaptabs[k]['_id'], kanaptabs[k]['price']]);
        tableauId.push(produitId)
-        console.log(contenuApi)
-
+        
       }
+      console.log(contenuApi)
 
       ///////
      
@@ -50,13 +56,16 @@ function appelApi() {
   });
   
 }
+appelApi();
 
 
 
 //////////////////FONCTION affichage Produit    Selectionne////////////////
 
 function affichageProduitSelectionne() {
+  
   let produitSelectionne = document.getElementById("cart__items");
+  
   if (productsFromLS === null || productsFromLS == 0) {//si le panier est vide affichage 
     const productVide = document.querySelector('h1')
     productVide.innerHTML = `<h1>Votre panier est vide</h1>`
@@ -65,24 +74,28 @@ function affichageProduitSelectionne() {
 
   } else {
     let produitCommande = [];//sinon creation  et recuperation du panier
+    
     for (p = 0; p < productsFromLS.length; p++) {
       /////////////////////////////////////////////////
-let idpanier = productsFromLS[p].kanap_id;
-let idprice = productsFromLS[p].price; }
+      var idpanier = productsFromLS[p]['id'];
+      var idprice = productsFromLS[p]['price']; 
+    }
+      console.log(idpanier);
 ///////////////APPEL API POUR VERIF DU PRIX//////////////////////
 
       let kanap = fetch("http://localhost:3000/api/products");
+     
       kanap.then((response) => { 
-     let kanapprom = response.json();
-     kanapprom.then((kanaptabs) => { 
+     
+        let kanapprom = response.json();
+     
+        kanapprom.then((kanaptabs) => { 
          for (let k = 0; k < kanaptabs.length; k++) {
 
              if (idpanier == kanaptabs[k]['_id']){
-                idprice = kanaptabs[k]['price']
-                
- }
- 
- }
+                idprice = kanaptabs[k]['price'] 
+              }
+          }
 
   });
      
@@ -91,7 +104,7 @@ let idprice = productsFromLS[p].price; }
       produitCommande +=
 
       `
-      <article class="cart__item" data-id="${productsFromLS[p].kanap_id}" data-color="${productsFromLS[p].selectedcolor}">
+      <article class="cart__item" data-id="${idpanier}" data-color="${productsFromLS[p].selectedcolor}">
       <div class="cart__item__img">
       <img src="${productsFromLS[p].img}" alt="Photographie d'un canapé">
       </div>
@@ -114,10 +127,6 @@ let idprice = productsFromLS[p].price; }
       </article>
 
       `;
-
-
-
-
  };
 
     if (p === productsFromLS.length) {
@@ -416,4 +425,4 @@ function prix() {
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
-
+*/

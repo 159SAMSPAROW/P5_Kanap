@@ -9,6 +9,7 @@ let orderId = window.location.search;
 console.log(orderId);
 
 //const theOrderId = orderId.slice(4)
+//console.log(theOrderId);
 
 // Vide toutes les clés stockées dans le localStorage
 
@@ -17,5 +18,6 @@ console.log(urlSearchParams);
 
 const leId = urlSearchParams.get("id");
 console.log(leId);
+
 document.getElementById("orderId").innerHTML += `${leId}`;
 //localStorage.clear();
