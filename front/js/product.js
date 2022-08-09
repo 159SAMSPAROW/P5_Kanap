@@ -23,7 +23,7 @@ const title = document.getElementById("title");
 const price = document.getElementById("price");
 const description = document.getElementById("description");
 const colors = document.getElementById("colors");
-let localStorageContent = JSON.parse(localStorage.getItem("product")); //convertit en java script
+
 
 //recup produit par id
 const kanapId = fetch(`http://localhost:3000/api/products/${productId}`);
@@ -63,15 +63,15 @@ const btnAdd = document.querySelector("#addToCart"); //on met le button id dans 
 
 btnAdd.addEventListener('click', () => { //ecoute événement click sur btnAdd
 
+let localStorageContent = JSON.parse(localStorage.getItem("product")); //convertit en java script
 
     const quantity = parseInt(getValue("quantity")); 
     const selectedcolor = getValue('colors'); 
                     //let product = JSON.parse(localStorage.getItem("product")); 
 
-    if (quantity < 0 && quantity < 100) { //condition si la valeur est compris entre 0 ET 100 
-        
+    if (quantity < 0 && quantity < 100) { //condition si la valeur est compris entre 0 ET 100         
         alert("La quantité doit être supérieur a zéro")
-     
+    
     }else{
         
         var productOptions = { //recupere le contenu des variables des details du produit
@@ -95,19 +95,19 @@ btnAdd.addEventListener('click', () => { //ecoute événement click sur btnAdd
             
             if(localStorageContent){
             
-                for (let p = 0; p < localStorageContent.length; p++) { 
-                
-                    if ((localStorageContent[p]['name'] == productOptions.name) &&
-                        (localStorageContent[p]['color'] == productOptions.color)) { //pour chercher si une correspondance nom/couleur existe deja
+                localStorageContent.forEach((kanap) => 
+                {
+                    if ((kanap.id === productOptions.id) &&
+                        (kanap.color === productOptions.color)) { //pour chercher si une correspondance nom/couleur existe deja
                         
                             return [
-                            (localStorageContent[p]['quantity']) += quantity, // si oui on ajoute la quantité voulu
+                            (kanap.quantity) += productOptions.quantity, // si oui on ajoute la quantité voulu
                             saveCart(localStorageContent) //appel de la fonction de sauvegarde du "product" dans le localstorage
                             ]
                         }
 
                         addAndSave(localStorageContent, productOptions)               
-                }
+                })
 
             }else{
                 localStorageContent = [];

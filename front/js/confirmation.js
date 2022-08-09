@@ -14,7 +14,7 @@ console.log(orderId);
 // Vide toutes les clés stockées dans le localStorage
 
 const urlSearchParams = new URLSearchParams(orderId);
-console.log(urlSearchParams);
+//console.log(urlSearchParams);
 
 const leId = urlSearchParams.get("id");
 console.log(leId);

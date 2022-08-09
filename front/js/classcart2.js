@@ -1,50 +1,28 @@
 /********************************Récupération du localStorage **********************************************************/
 
 // Les éléments du localStorage sont récupérées
-let panier = JSON.parse(localStorage.getItem("product"));
-//console.table(panier);
+let panier = JSON.parse(localStorage.getItem("Panier"));
+
 /********************************************* Fin ****************************************************************** */
 
 /******************************** Modification du panier ************************************************************ */
-function saveProductLS(product) {
-    return localStorage.setItem("product", JSON.stringify(product));
-  }
+
 // Fonction pour supprimer le produit avec l'id et la couleur correspondante
-function eraseCart(id, color)  {
+eraseCart = (id, color) => {
     panier = panier.filter(kanap => {
-        if(kanap.kanap_id == id && kanap.selectedcolor == color){
+        if(kanap.id == id && kanap.color == color){
             return false;
         } 
         return true;
     });
-    localStorage.setItem("product", JSON.stringify(panier));
+    localStorage.setItem("Panier", JSON.stringify(panier));
 };
-  
-// Change la quantité depuis la page panier
-function changeQuantity(){
-    
-  // console.log(product);
-  for (let prod of panier) {
-    let kanapFind = panier.find((item) => {
-      // console.log(item.id == p.id && item.color == p.color);
-      //console.log(item.kanap_id);
-      return item.id == prod.id && item.color == prod.color;
-     })
-      let inputQuantity = document.querySelectorAll(".itemQuantity");
-     
-      inputQuantity.forEach((item) => {
-        
-                item.addEventListener("change", (e) => {
-                console.log(inputQuantity);
-                kanapFind.quantity = parseInt(e.target.value);
-                console.log(kanapFind.quantity);
-                saveProductLS(panier);
 
-      });
-    });  
-  }
-}
-
+// Fonction pour modifier la quantité
+changeQuantity = (kanap, newQuantity) => {
+    kanap.quantity = newQuantity;
+    localStorage.setItem("Panier", JSON.stringify(panier));
+};
 
 
 // Condition pour l'ensemble du panier
@@ -55,19 +33,19 @@ if (panier === null || panier == 0) {
     panier.forEach((kanap) => {
         /* Methode Fetch pour récupérer les données qui ne sont pas stockés dans le localStorage, 
         y compris les données sensibles comme le prix*/
-        fetch("http://localhost:3000/api/products/" + `${kanap.kanap_id}`)
+        fetch("http://localhost:3000/api/products/" + `${kanap.id}`)
         .then(response => response.json())
         .then(function(productDetail){
             // Ajout des produits dans la page panier
             document.getElementById("cart__items").innerHTML += `
-                <article class="cart__item" data-id="${kanap.kanap_id}" data-color="${kanap.selectedcolor}">
+                <article class="cart__item" data-id="${kanap.id}" data-color="${kanap.color}">
                     <div class="cart__item__img">
                         <img src="${productDetail.imageUrl}" alt="${productDetail.altTxt}">
                     </div>
                     <div class="cart__item__content">
                         <div class="cart__item__content__description">
                         <h2>${productDetail.name}</h2>
-                        <p>${kanap.selectedcolor}</p>
+                        <p>${kanap.color}</p>
                         <p id="priceProduct">${productDetail.price} €</p>
                         </div>
                         <div class="cart__item__content__settings">
@@ -86,31 +64,27 @@ if (panier === null || panier == 0) {
                 document.querySelectorAll(".deleteItem").forEach(button => {
                 // Pour chaque clique
                 button.addEventListener("click", (element) => {
-                    
                     let removeId = element.currentTarget.closest(".cart__item").dataset.id;
                     let removeColor = element.currentTarget.closest(".cart__item").dataset.color;
-                    
                     console.log(removeId);
                     console.log(removeColor);
                     // Suppression du produit
                     eraseCart(removeId, removeColor);
                     console.log(panier);
                     // Actualisation de la page
-                    window.location.reload();
+                    // window.location.reload();
                 });
             });
             
             // Modification de la quantité
             document.querySelectorAll(".itemQuantity").forEach(inputQuantity => {
                 inputQuantity.addEventListener("change", (element) => {
-                   
                     let newQuantity = element.currentTarget.closest(".itemQuantity").value;
                     let id = element.currentTarget.closest(".cart__item").dataset.id;
                     let color = element.currentTarget.closest(".cart__item").dataset.color;
-                    //let myProduct = panier.find(element => (element.id === id)&&(element.color === color));
-                   
-                    changeQuantity(newQuantity);
-                    //window.location.reload();
+                    let myProduct = panier.find(element => (element.id === id)&&(element.color === color));
+                    changeQuantity(myProduct, newQuantity);
+                    window.location.reload();
                 });
             });
         });
@@ -129,7 +103,7 @@ if (panier !== null){
         document.getElementById("totalQuantity").innerHTML = totalProduct;
 
         // Calcul du prix
-        fetch("http://localhost:3000/api/products/" + `${kanap.kanap_id}`)
+        fetch("http://localhost:3000/api/products/" + `${kanap.id}`)
         .then( data => data.json())
         .then(function(productDetail){
             let moneyLap = productDetail.price
