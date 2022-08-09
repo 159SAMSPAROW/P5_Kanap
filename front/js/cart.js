@@ -10,7 +10,7 @@ function saveProductLS(product) {
     return localStorage.setItem("product", JSON.stringify(product));
   }
 // Fonction pour supprimer le produit avec l'id et la couleur correspondante
-function eraseCart(id, color)  {
+function deleteItem(id, color)  {
     panier = panier.filter(kanap => {
         if(kanap.kanap_id == id && kanap.selectedcolor == color){
             return false;
@@ -35,10 +35,10 @@ function changeQuantity(){
       inputQuantity.forEach((item) => {
         
                 item.addEventListener("change", (e) => {
-                console.log(inputQuantity);
+                //console.log(inputQuantity);
                 kanapFind.quantity = parseInt(e.target.value);
                 console.log(kanapFind.quantity);
-                saveProductLS(panier);
+                saveProductLS();
 
       });
     });  
@@ -93,7 +93,7 @@ if (panier === null || panier == 0) {
                     console.log(removeId);
                     console.log(removeColor);
                     // Suppression du produit
-                    eraseCart(removeId, removeColor);
+                    deletItem(removeId, removeColor);
                     console.log(panier);
                     // Actualisation de la page
                     window.location.reload();
