@@ -8,8 +8,8 @@ console.log(orderId);*/
 let orderId = window.location.search;
 console.log(orderId);
 
-//const theOrderId = orderId.slice(4)
-//console.log(theOrderId);
+const theOrderId = orderId.slice(0)
+console.log(theOrderId);
 
 // Vide toutes les clés stockées dans le localStorage
 

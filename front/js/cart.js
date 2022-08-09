@@ -7,8 +7,28 @@ let panier = JSON.parse(localStorage.getItem("product"));
 
 /******************************** Modification du panier ************************************************************ */
 function saveProductLS(product) {
-    return localStorage.setItem("product", JSON.stringify(product));
+    return localStorage.setItem("product", JSON.stringify(panier));
   }
+  
+  function getValue(option) { // fonction de récupération des options/quantité selectionnées
+    return document.getElementsByClassName(option).value
+}
+
+// Change la quantité depuis la page panier
+
+/*function changeQuantity(){
+    let quantity = parseInt(getValue(".itemQuantity"));
+    //console.log(quantity);
+    for (let p = 0; p < panier.length; p++) { 
+        if ((panier[p]['kanap_id'] == kanap_id) &&
+            (panier[p]['selectedcolor'] == selectedcolor)) { //pour chercher si une correspondance nom/couleur existe deja
+            return [
+                (panier[p]['quantity']) += quantity, // si oui on ajoute la quantité voulu
+                saveProductLS(panier) //appel de la fonction de sauvegarde du "product" dans le localstorage
+            ]
+        }
+    }
+}*/
 // Fonction pour supprimer le produit avec l'id et la couleur correspondante
 function deleteItem(id, color)  {
     panier = panier.filter(kanap => {
@@ -19,33 +39,6 @@ function deleteItem(id, color)  {
     });
     localStorage.setItem("product", JSON.stringify(panier));
 };
-  
-// Change la quantité depuis la page panier
-function changeQuantity(){
-    
-  // console.log(product);
-  for (let prod of panier) {
-    let kanapFind = panier.find((item) => {
-      
-     console.log(item.quantity)
-     return item.kanap_id == prod.id && item.selectedcolor == prod.selectedcolor;
-     })
-     
-      let inputQuantity = document.querySelectorAll(".itemQuantity");
-     
-      inputQuantity.forEach((item) => {
-        
-                item.addEventListener("change", (e) => {
-                //console.log(inputQuantity);
-                item.quantity = parseInt(e.target.value);
-                saveProductLS(item.quantity);
-
-      });
-    });  
-  }
-}
-
-
 
 // Condition pour l'ensemble du panier
 if (panier === null || panier == 0) {
@@ -57,7 +50,8 @@ if (panier === null || panier == 0) {
         y compris les données sensibles comme le prix*/
         fetch("http://localhost:3000/api/products/" + `${kanap.kanap_id}`)
         .then(response => response.json())
-        .then(function(productDetail){
+            
+            .then(function(productDetail){
             // Ajout des produits dans la page panier
             document.getElementById("cart__items").innerHTML += `
                 <article class="cart__item" data-id="${kanap.kanap_id}" data-color="${kanap.selectedcolor}">
@@ -93,29 +87,30 @@ if (panier === null || panier == 0) {
                     console.log(removeId);
                     console.log(removeColor);
                     // Suppression du produit
-                    deletItem(removeId, removeColor);
+                    deleteItem(removeId, removeColor);
                     console.log(panier);
                     // Actualisation de la page
                     window.location.reload();
                 });
-            });
+                });
             
             // Modification de la quantité
-            document.querySelectorAll(".itemQuantity").forEach(inputQuantity => {
-                inputQuantity.addEventListener("change", (element) => {
-                   
-                    let newQuantity = element.currentTarget.closest(".itemQuantity").value;
-                    let id = element.currentTarget.closest(".cart__item").dataset.id;
-                    let color = element.currentTarget.closest(".cart__item").dataset.color;
-                    //let myProduct = panier.find(element => (element.id === id)&&(element.color === color));
-                   
-                    changeQuantity(newQuantity);
-                    //window.location.reload();
-                });
+                document.querySelectorAll(".itemQuantity").forEach(inputQuantity => {
+                
+                    inputQuantity.addEventListener('input', function(){
+                    console.log('fonctionne stp!!!');
+                    console.log(kanap.quantity)
+                    let newQuantity = inputQuantity.value;
+                    kanap.quantity = newQuantity; 
+                    saveProductLS(kanap.quantity);
+                    win
+                    })
+                })
+            
+           
             });
-        });
-    });
-};
+            });
+        };
 
 // Calcul de la somme des produits
 if (panier !== null){
@@ -151,11 +146,11 @@ if (panier !== null){
 let products = [];
 if (panier !== null){
     for(let product of panier){
-        let productId = product.id;
+        let productId = product.kanap_id;
         products.push(productId);
     }
 };
-
+console.log(panier);
 //***************************************** REGEX ********************************************************* */
 // fonction contenant la regEx pour la validation du prénom, le nom, et la ville
 const regExFirstNameLastNameCity = (value) => {
