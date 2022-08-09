@@ -37,6 +37,7 @@ function changeQuantity(){
                 item.addEventListener("change", (e) => {
                 //console.log(inputQuantity);
                 kanapFind.quantity = parseInt(e.target.value);
+
                 console.log(kanapFind.quantity);
                 saveProductLS();
 
