@@ -78,8 +78,9 @@ kanap.then((response) => {
                         } else { //vérifie si le product contient deja des produits
                             alert('Votre produit a été ajouté!')
                             if (product) { 
+                                console.log(product)
                                 for (let p = 0; p < product.length; p++) { 
-                                    if ((product[p]['name'] == article.name) &&
+                                    if ((product[p]['kanap_id'] == article.kanap_id) &&
                                         (product[p]['selectedcolor'] == article.selectedcolor)) { //pour chercher si une correspondance nom/couleur existe deja
                                         return [
                                             (product[p]['quantity']) += article.quantity, // si oui on ajoute la quantité voulu

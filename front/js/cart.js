@@ -26,20 +26,19 @@ function changeQuantity(){
   // console.log(product);
   for (let prod of panier) {
     let kanapFind = panier.find((item) => {
-      // console.log(item.id == p.id && item.color == p.color);
-      //console.log(item.kanap_id);
-      return item.id == prod.id && item.color == prod.color;
+      
+     console.log(item.quantity)
+     return item.kanap_id == prod.id && item.selectedcolor == prod.selectedcolor;
      })
+     
       let inputQuantity = document.querySelectorAll(".itemQuantity");
      
       inputQuantity.forEach((item) => {
         
                 item.addEventListener("change", (e) => {
                 //console.log(inputQuantity);
-                kanapFind.quantity = parseInt(e.target.value);
-
-                console.log(kanapFind.quantity);
-                saveProductLS();
+                item.quantity = parseInt(e.target.value);
+                saveProductLS(item.quantity);
 
       });
     });  
