@@ -142,8 +142,8 @@ return /^([a-zA-Zàâäéèêëïîôöùûüç' ]+){3,20}$/.test(value);// Rege
 
 // Fonction contenant la regEx pour la validation de l'adresse
 const regExAdress = function (value) {// Décla fonction qui permet de tester une valeur contenu dans la
-return /^[a-zA-Z\s\d\/]*\d[a-zA-Z\s\d\/]*$/.test(value);// Regex qui autorise et renvoie les caractères a-zA-Zàâäéèêëïîôöùûüç, les chiffres compris entre 0 et 9,
-                                                            // les espaces, .-' min 3 
+return /^[a-zA-Z\s\d\/]*\d[a-zA-Z\s\d\/]*$/.test(value);// Regex qui autorise et renvoie les caractères a-z A-Z et demande u  chiffre  0-9,
+                                                            //et les espaces 
 }
 
 //Fonction contenant la regex pour la validation de l'adresse mail
