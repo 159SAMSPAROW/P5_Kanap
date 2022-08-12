@@ -3,10 +3,6 @@ let url = window.location.search;
 const urlSearchParams = new URLSearchParams(url);
 const kanap_id = urlSearchParams.get("id");
 
-/*let urlcourante = window.location.href; // On injecte dans la variable l' url de cette page
-let url = new URL(urlcourante); // On injecte dans la variable url un nouvel objet avec comme paramètre la variable qui contient l' url
-let kanap_id = url.searchParams.get("id");// On injecte dans kanap_id la valeur de l' id obtenu par la propriété searchParams.get */
-
 function showToDOM(where, what) { // Fonction d' affichage des éléments du produit
     document.getElementById(where).innerHTML = what; 
 }

@@ -6,9 +6,9 @@ function saveProductLS(product) {// fonction qui envoi vers le localStorage
     return localStorage.setItem("product", JSON.stringify(productFromLS));
   }
   
-  function getValue(option) { // fonction de récupération des options/quantitées selectionnées
+/*function getValue(option) { // fonction de récupération des options/quantitées selectionnées
     return document.getElementsByClassName(option).value
-}
+}*/
 
 function deleteItem(id, color)  {// Fonction pour supprimer le produit avec l'id et la couleur correspondante
     
@@ -142,7 +142,7 @@ return /^([a-zA-Zàâäéèêëïîôöùûüç' ]+){3,20}$/.test(value);// Rege
 
 // Fonction contenant la regEx pour la validation de l'adresse
 const regExAdress = function (value) {// Décla fonction qui permet de tester une valeur contenu dans la
-return /^[a-zA-Zàâäéèêëïîôöùûüç'0-9\s,.'-]{3,}$/.test(value);// Regex qui autorise et renvoie les caractères a-zA-Zàâäéèêëïîôöùûüç, les chiffres compris entre 0 et 9,
+return /^[a-zA-Z\s\d\/]*\d[a-zA-Z\s\d\/]*$/.test(value);// Regex qui autorise et renvoie les caractères a-zA-Zàâäéèêëïîôöùûüç, les chiffres compris entre 0 et 9,
                                                             // les espaces, .-' min 3 
 }
 
