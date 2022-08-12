@@ -2,7 +2,7 @@
 
 let orderId = window.location.search;
 const urlSearchParams = new URLSearchParams(orderId);
-const leId = urlSearchParams.get("id");
+const OrderId = urlSearchParams.get("id");
 
-document.getElementById("orderId").innerHTML += `${leId}`;
+document.getElementById("orderId").innerHTML += `${OrderId}`;
 localStorage.clear();

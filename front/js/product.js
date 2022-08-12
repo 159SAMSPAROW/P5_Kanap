@@ -1,7 +1,8 @@
 
-let url = window.location.search;
-const urlSearchParams = new URLSearchParams(url);
-const kanap_id = urlSearchParams.get("id");
+let url = window.location.search;// On récupère l' url de la page
+const urlSearchParams = new URLSearchParams(url);// Création d' un object pour rechercher l' id
+const kanap_id = urlSearchParams.get("id");// Récupération de l' id
+
 
 function showToDOM(where, what) { // Fonction d' affichage des éléments du produit
     document.getElementById(where).innerHTML = what; 
@@ -24,11 +25,11 @@ function getValue(option) { // fonction de récupération des options/quantité 
 //appel API 
 let kanap = fetch("http://localhost:3000/api/products");
 
-kanap.then(function (response, err)  { 
+kanap.then( async function (response, err)  { 
 
     let kanapprom = response.json();
 
-    kanapprom.then(function(kanaptabs) { // Si reponse on récupère les infos de l' api dans kanatabs 
+    await kanapprom.then(function(kanaptabs) { // Si reponse on récupère les infos de l' api dans kanatabs 
 
         for (let k = 0; k < kanaptabs.length; k++) {// On boucle sur tous les éléments
              
@@ -39,7 +40,7 @@ kanap.then(function (response, err)  {
                 produit.id = kanaptabs[k]['_id']
                 produit.colors = kanaptabs[k]['colors']
 
-                //On créer un deuxième objet pour séparer les caractéristique que l' on enverra pas au localStorage
+                //On créer un deuxième objet pour séparer les caractéristique que l' on enverra pas au localStorage, pour pouvoir les injecter dans le html
                 let prod  = new Object()
                 prod.imageUrl = kanaptabs[k]['imageUrl']
                 prod.alttxt = kanaptabs[k]['altTxt']
@@ -65,15 +66,13 @@ kanap.then(function (response, err)  {
                                                                                       // + les valeurs en texte dans les options du controle select
                 })
 
-                const button = document.getElementById('addToCart');// On sélectionne le bouton addTocart
-                
+                const button = document.getElementById('addToCart');// On sélectionne le bouton addTocart                
                 button.addEventListener('click', function() {// On écoute l' événement click 
                     
                     const quantity = parseInt(getValue("quantity")); // On récupère la valeur en nombre entier 
                     const selectedcolor = getValue('colors'); //On récupère la couleur sélectionner 
                     let product = JSON.parse(localStorage.getItem("product"));//On récupère le localStorage 
-                
-                    
+                                   
                     if (quantity < 0) { // On vérifie que la quantité soit un nombre  positif sinon alerte et reset a 0
                         alert("La quantité doit être supérieur a zéro")
                         document.getElementById("quantity").value = 0
@@ -87,24 +86,17 @@ kanap.then(function (response, err)  {
                             price: produit.price,
                             selectedcolor,
                             alt: produit.alttxt,
-                        }
-                        
+                        }                       
                         if (quantity == 0) { // vérification quantité différente de zéro
-                            alert("Veuillez choisir la quantité")
-                        
+                            alert("Veuillez choisir la quantité")                      
                         } else if (selectedcolor == '') { 
-                            alert("Veuillez choisir une couleur")
-                        
+                            alert("Veuillez choisir une couleur")   
                         } else { 
-                            alert('Votre produit a été ajouté!')
-                           
-                            if (product) { //vérifie si le product contient deja des produits
-                              
-                                for (let p = 0; p < product.length; p++) { //On boucle sur le tableau product
-                                   
+                            alert('Votre produit a été ajouté!')  
+                            if (product) { //vérifie si le product contient deja des produits     
+                                for (let p = 0; p < product.length; p++) { //On boucle sur le tableau product     
                                     if ((product[p]['kanap_id'] == article.kanap_id) &&
                                         (product[p]['selectedcolor'] == article.selectedcolor)) { // Si une correspondance nom/couleur existe deja
-                                        
                                             return [
                                             (product[p]['quantity']) += article.quantity, // si oui on ajoute la quantité voulu
                                             saveCart(product) //appel de la fonction de sauvegarde du product dans le localstorage

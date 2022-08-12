@@ -15,25 +15,21 @@ function deleteItem(id, color)  {// Fonction pour supprimer le produit avec l'id
     productFromLS = productFromLS.filter(kanap => {               //La méthode filter() crée et retourne un nouveau tableau 
         if(kanap.kanap_id == id && kanap.selectedcolor == color){ //contenant tous les éléments du tableau d'origine qui 
             return false;                                         //remplissent une condition déterminée par la fonction callback.
-        } 
-        return true;
+        }else{return true;} 
     });
+
     saveProductLS(productFromLS);
 };
 
 // Condition pour l'ensemble du panier
 if (productFromLS === null || productFromLS == 0) {// On verifie si le localStorage existe et si il n' est pas vide
     document.getElementById("cart__items").innerHTML = '<h2>Votre panier  est vide</h2>'// On injecte un h2 dans cart__items(html)
-
 }else{// sinon
     productFromLS.forEach((kanap) => {// On boucle sur chaque (kanap)
-
-        // Apel API pour récupérer les données qui ne sont pas stockées dans le localStorage, 
-    
+        // Apel API pour récupérer les données qui ne sont pas stockées dans le localStorage,    
         fetch("http://localhost:3000/api/products/" + `${kanap.kanap_id}`)// En ajoutant l' id pour recherche précise
         
-        .then(response => response.json())// Alors on veut convertir la réponse au format json (objet javascript)
-            
+        .then(async response => await response.json())// Alors on veut convertir la réponse au format json (objet javascript)           
             .then(function(productDetail){// Alors on récupère les infos dans productDetail
             
             document.getElementById("cart__items").innerHTML += // Ajout des produits dans la page panier (html a la volée)
@@ -60,9 +56,9 @@ if (productFromLS === null || productFromLS == 0) {// On verifie si le localStor
                     </div>
                 </article>`
 
+
                 // Sélection des boutons supprimer
-                document.querySelectorAll(".deleteItem").forEach(button => {// On boucle sur chaque bouton deleteItem
-                
+                document.querySelectorAll(".deleteItem").forEach(button => {// On boucle sur chaque bouton deleteItem                
                 button.addEventListener("click", (element) => {// A chaque clic sur (l' élément)
                     
                     // On injecte dans les variables l' événement dans lequel on se trouve, 

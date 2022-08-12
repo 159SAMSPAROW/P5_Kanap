@@ -1,17 +1,10 @@
 //apel api
 const kanap = fetch("http://localhost:3000/api/products");
 
-
 kanap.then(async function(res, err) {// Alors on récupère de facon asynchrone  
-
-        if (res.ok) {// Si il y a une réponse 
-           
-            await res.json()// On demande une réponse convertit en objet javaScript
-
-            
-            .then(function(products){// Alors paramètre le contenu de la réponse dans products
-                                 
-
+        if (res.ok) {// Si il y a une réponse            
+            await res.json()// On attend la réponse et on veut la récupérer au format JSON          
+            .then(function(products){// Alors on nomme  le contenu de la réponse dans products
                 for (let product of products) {// On boucle pour un produit contenu dans products
 
                     items.innerHTML += // On injecte dans le html  chaque produit de manière dynamique
@@ -24,8 +17,8 @@ kanap.then(async function(res, err) {// Alors on récupère de facon asynchrone
                     </article>
                     </a>`
                 }
-            }).catch(function(err)  {
-                items.innerHTML =" <h2>Erreur de chargement de la page</h2>";
+            }).catch(function(err)  {// Si il ya une erreur dans la promise 
+                items.innerHTML =" <h2>Erreur de chargement de la page</h2>";// On injecte un h2 dans le html
             })
         }
     })
