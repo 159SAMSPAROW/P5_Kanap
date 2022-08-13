@@ -121,7 +121,7 @@ if (productFromLS !== null){ //On vérifie si le localStorage n' est pas vide
 // Fonction pour créer un tableau de produits
 let products = [];// Décla tableau
 
-if (productFromLS !== null){// On vérifie si productFromLS n' est pas vide
+if (productFromLS !== null){// On vérifie si productFromLS n' est pas vide    
     
     for(let product of productFromLS){//On boucle pour un produit du localStorage 
         let productId = product.kanap_id;// On injecte l' id dans la variable productId
@@ -150,22 +150,18 @@ return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);// 
 // Fonctions qui controle la validité du formulaire 
 
 //Contrôle de la validité du prenom
-checkFirstName = function(contact) { 
-    
-    const theFirstName = contact.firstName;
+checkFirstName = function(contact) {     
+    const theFirstName = contact.firstName;   
     if (regExFirstNameLastNameCity(theFirstName)) {
         document.querySelector('#firstNameErrorMsg').textContent = "";
-        return true;
-    
+        return true;    
     } else {
         document.querySelector('#firstNameErrorMsg').textContent = "Le prénom n'est pas valide";           
         return false;
     };
 };
-
 //Contrôle de la validité du nom
-checkLastName = function(contact) { 
-    
+checkLastName = function(contact) {    
     const theLastName = contact.lastName;
     if (regExFirstNameLastNameCity(theLastName)) {
         document.querySelector('#lastNameErrorMsg').textContent = "";            
@@ -176,31 +172,23 @@ checkLastName = function(contact) {
         return false;
     };
 };
-
 //Contrôle de la validité de l'adresse
-checkAdress = function(contact) { 
-    
+checkAdress = function(contact) {     
     const theAdress = contact.address;
-    if (regExAdress(theAdress)) {
-         
+    if (regExAdress(theAdress)) {         
         document.querySelector('#addressErrorMsg').textContent = ""; 
-        return true;
-    
-    } else {
-        
+        return true;    
+    } else {        
         document.querySelector('#addressErrorMsg').textContent = "L'adresse n'est pas valide"; 
         return false;
     };
 };
-
 //Contrôle de la validité de la ville
-checkCity = function(contact) { 
-    
+checkCity = function(contact) {    
     const theCity = contact.city;
     if (regExFirstNameLastNameCity(theCity)) {
          document.querySelector('#cityErrorMsg').textContent = ""; 
-        return true;
-    
+        return true;    
     } else {
         document.querySelector('#cityErrorMsg').textContent = "La ville n'est pas valide"; 
         return false;
@@ -208,13 +196,11 @@ checkCity = function(contact) {
 };
 
 //Contrôle de la validité de l'email
-checkEmail = function(contact) { 
-    
+checkEmail = function(contact) {     
     const theEmail = contact.email;
     if (regExMail(theEmail)) {
         document.querySelector('#emailErrorMsg').textContent = ""; 
-        return true;
-    
+        return true;    
     } else {
         document.querySelector('#emailErrorMsg').textContent = "L'adresse mail n'est pas valide"; 
         return false;
@@ -241,40 +227,33 @@ if(dataLocalStorageObjet == null) {
 
 
 //Evenement au clic sur le bouton commander
-
 const buttonOrder = document.querySelector('#order');
-
 buttonOrder.addEventListener('click',(element) => {
     element.preventDefault();
-
-//Récupération des valeurs (dans un objet) du formulaire qui vont aller dans le localStorage
-   
+//Récupération des valeurs (dans un objet) du formulaire qui vont aller dans le localStorage   
 const contact = {
     firstName: document.querySelector('#firstName').value,
     lastName: document.querySelector('#lastName').value,
     address: document.querySelector('#address').value,
     city: document.querySelector('#city').value,
     email: document.querySelector('#email').value
-    }
-  
+    }  
     checkFirstName(contact);
     checkLastName(contact);
     checkAdress(contact);
     checkCity(contact);
     checkEmail(contact);
-
     // On vérifie si tous les input sont conformes, les valeurs sont stockés dans le localStorage 
-
     if (checkFirstName(contact) && checkLastName(contact) && checkAdress(contact) && checkCity(contact) && checkEmail(contact)) {  
         // Mettre l'objet 'contact' dans le localStorage
-        localStorage.setItem('contact', JSON.stringify(contact))// stringify transforme l'objet en chaine de caractere
-        
+        localStorage.setItem('contact', JSON.stringify(contact))// stringify transforme l'objet en chaine de caractere       
         //On met les valeurs du formulaire des produits sélectionnés l' objet à envoyer au serveur
         const dataToSend = {
             products,
             contact
         }
         
+       
         // Envoi de l'objet 'dataToSend' vers le serveur
         fetch("http://localhost:3000/api/products/order", {
             
