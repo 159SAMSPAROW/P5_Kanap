@@ -25,11 +25,11 @@ function getValue(option) { // fonction de récupération des options/quantité 
 //appel API 
 let kanap = fetch("http://localhost:3000/api/products");
 
-kanap.then( async function (response, err)  { 
+kanap.then( function (response, err)  { 
 
     let kanapprom = response.json();
 
-    await kanapprom.then(function(kanaptabs) { // Si reponse on récupère les infos de l' api dans kanatabs 
+     kanapprom.then(function(kanaptabs) { // Si reponse on récupère les infos de l' api dans kanatabs 
 
         for (let k = 0; k < kanaptabs.length; k++) {// On boucle sur tous les éléments
              

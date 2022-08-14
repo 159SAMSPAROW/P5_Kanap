@@ -1,9 +1,9 @@
 //apel api
 const kanap = fetch("http://localhost:3000/api/products");
 
-kanap.then(async function(res, err) {// Alors on récupère de facon asynchrone  
+kanap.then( function(res, err) {// Alors on récupère de facon asynchrone  
         if (res.ok) {// Si il y a une réponse            
-            await res.json()// On attend la réponse et on veut la récupérer au format JSON          
+             res.json()// On attend la réponse et on veut la récupérer au format JSON          
             .then(function(products){// Alors on nomme  le contenu de la réponse dans products
                 for (let product of products) {// On boucle pour un produit contenu dans products
 

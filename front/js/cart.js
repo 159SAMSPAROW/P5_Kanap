@@ -29,7 +29,7 @@ if (productFromLS === null || productFromLS == 0) {// On verifie si le localStor
         // Apel API pour récupérer les données qui ne sont pas stockées dans le localStorage,    
         fetch("http://localhost:3000/api/products/" + `${kanap.kanap_id}`)// En ajoutant l' id pour recherche précise
         
-        .then(async response => await response.json())// Alors on veut convertir la réponse au format json (objet javascript)           
+        .then( response => response.json())// Alors on veut convertir la réponse au format json (objet javascript)           
             .then(function(productDetail){// Alors on récupère les infos dans productDetail
             
             document.getElementById("cart__items").innerHTML += // Ajout des produits dans la page panier (html a la volée)
