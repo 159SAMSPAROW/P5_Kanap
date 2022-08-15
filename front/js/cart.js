@@ -6,9 +6,9 @@ function saveProductLS(product) {// fonction qui envoi vers le localStorage
     return localStorage.setItem("product", JSON.stringify(productFromLS));
   }
   
-/*function getValue(option) { // fonction de récupération des options/quantitées selectionnées
+function getValue(option) { // fonction de récupération des options/quantitées selectionnées
     return document.getElementsByClassName(option).value
-}*/
+}
 
 function deleteItem(id, color)  {// Fonction pour supprimer le produit avec l'id et la couleur correspondante
     
@@ -59,39 +59,41 @@ if (productFromLS === null || productFromLS == 0) {// On verifie si le localStor
 
                 // Sélection des boutons supprimer
                 document.querySelectorAll(".deleteItem").forEach(button => {// On boucle sur chaque bouton deleteItem                
-                button.addEventListener("click", (element) => {// A chaque clic sur (l' élément)
+                button.addEventListener("click", (element) => {// A chaque clic sur (l' élément)  
                     
-                    // On injecte dans les variables l' événement dans lequel on se trouve, 
-                    // l élément le plus proche qui correspond  au sélécteur
-                    let removeId = element.currentTarget.closest(".cart__item").dataset.id;
-                    let removeColor = element.currentTarget.closest(".cart__item").dataset.color;
-                    
-                    deleteItem(removeId, removeColor);// Suppression des produit
-    
-                    
+                    let removeId = element.currentTarget.closest(".cart__item").dataset.id;// On injecte dans les variables l' événement dans lequel on se trouve,             
+                    let removeColor = element.currentTarget.closest(".cart__item").dataset.color;// l élément le plus proche qui correspond  au sélécteur
+                    deleteItem(removeId, removeColor);// Suppression des produit                
                     window.location.reload();// Actualisation de la page
                 });
                 });
             
-            // Modification de la quantité
+            // Modification de la quantité par input
                 document.querySelectorAll(".itemQuantity").forEach(inputQuantity => {// On boucle pour chaque input de quantité
-               
-                    inputQuantity.addEventListener('input', function(){// On écoute l' input
-                        window.location.reload();// recharge
-                        
+                    inputQuantity.addEventListener('change',function(){// On écoute l' input
+                          
                         let newQuantity = inputQuantity.value;// On injecte la valeur de l' input dans la variable newQuantity
-                        kanap.quantity = newQuantity; // On attribut la nouvelle valeur saisie à la clé quantity du tableau kanap
-                        saveProductLS(kanap.quantity);// On sauvegarde dans le localStorage la valeur mis a jour
-                    
-                    })
-                    
-                })           
+                            kanap.quantity = newQuantity; // On attribut la nouvelle valeur saisie à la clé quantity du tableau kanap                
+                            console.log(kanap.quantity);
+                        
+                            if(kanap.quantity > 0 && kanap.quantity <= 100){   
+                            saveProductLS(kanap.quantity);// On sauvegarde dans le localStorage la valeur mis a jour
+                            window.location.reload();// recharge
+                        
+                            }else {
+                            alert('La quantité doit être comprise entre 0 et 100 !!!!')
+                            window.location.reload();
+                        }
+                    })       
+                }) 
+
             });
-            });
-        };
+        });
+    };
+
 
 // Calcul de la somme des produits
-if (productFromLS !== null){ //On vérifie si le localStorage n' est pas vide
+if (productFromLS !== null || productFromLS){ //On vérifie si le localStorage n' est pas vide
     let totalProduct = 0;
     let totalPrice = 0;
     
@@ -144,8 +146,8 @@ return /^[a-zA-Z\s\d\/]*\d[a-zA-Z\s\d\/]*$/.test(value);// Regex qui autorise et
 
 //Fonction contenant la regex pour la validation de l'adresse mail
 const regExMail = function (value) {// Décla fonction qui permet de tester une valeur contenu dans la
-return /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/.test(value);// Regex qui autorise et renvoie les caractères a-zA-Zàâäéèêëïîôöùûüç.-, 1 @,les caractères
-                                                                             //a-z A-Z 0-9+plusieurs fois, 1 ., a-z min 2 max 10
+return /^([a-zA-Z0-9]+(([\.\-\_]?[a-zA-Z0-9]+)+)?)\@(([a-zA-Z0-9]+[\.\-\_])+[a-zA-Z]{2,4})$/.test(value);// Regex qui autorise et renvoie les caractères a-zA-Zàâäéèêëïîôöùûüç.-, 1 @,les caractères
+                                                                                                           //a-z A-Z 0-9+plusieurs fois, 1 ., a-z min 2 max 10
 }
 // Fonctions qui controle la validité du formulaire 
 

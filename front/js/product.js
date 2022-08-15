@@ -73,8 +73,8 @@ kanap.then( function (response, err)  {
                     const selectedcolor = getValue('colors'); //On récupère la couleur sélectionner 
                     let product = JSON.parse(localStorage.getItem("product"));//On récupère le localStorage 
                                    
-                    if (quantity < 0) { // On vérifie que la quantité soit un nombre  positif sinon alerte et reset a 0
-                        alert("La quantité doit être supérieur a zéro")
+                    if (quantity < 0 || quantity > 100) { // On vérifie que la quantité soit un nombre  positif sinon alerte et reset a 0
+                        alert("La quantité doit être comprise entre 1 et 100 !")
                         document.getElementById("quantity").value = 0
                     } else { //création de l'objet à rajouter au product
                         
